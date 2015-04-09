@@ -7,8 +7,8 @@ window.onload = function() {
     function preload() {
         // load sprites and backgrounds
         game.load.image('sky', 'assets/sky.bmp');
-        game.load.spritesheet( 'ninja', 'assets/ninja.png', 489, 489);
-        game.load.image('dog', 'assets/potion.png');
+        game.load.spritesheet('player', 'assets/ninja.png', 489, 489);
+        game.load.image('potion', 'assets/potion.png');
         game.load.image('menu', 'assets/menu.png');
         game.load.image('back', 'assets/background.png');
         game.load.image('spike', 'assets/car.png');
@@ -35,13 +35,13 @@ window.onload = function() {
     var jump;
     var jumpTimer = 0;
     var facingLeft = false;
-    var dog;
+    var potion;
     var menu;
     var back;
     var platforms;
     var plat;
     var spikes;
-    var spike;
+    var car;
     var balls;
     var ball;
 	var coins;
@@ -92,36 +92,36 @@ window.onload = function() {
         // add sprites and turn on the arcade physics engine for this sprite.
         bg = game.add.tileSprite(0, 0, 30000, 1600, 'sky');
         back = game.add.tileSprite(0, 0, 30000, 1600, 'back');
-        player = game.add.sprite(15, 1000, 'ninja');
+        player = game.add.sprite(15, 1000, 'player');
         player.scale.setTo(0.2, 0.2);
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.enable(player);
         hitbox = player.body.width * 0.1;
         playerHeight = player.body.height * 0.95;
         game.world.sendToBack(bg);
-        dog = game.add.sprite(29800, 1330, 'dog');
-        dog.scale.setTo(0.4, 0.4);
-        game.physics.arcade.enable(dog);
+        potion = game.add.sprite(29800, 1330, 'potion');
+        potion.scale.setTo(0.4, 0.4);
+        game.physics.arcade.enable(potion);
         
         // add platforms and obstacles
         platforms = game.add.group();
-        spikes = game.add.group();
+        cars = game.add.group();
         balls = game.add.group();
 		coins = game.add.group();
 		enemies = game.add.group();
 		enemies2 = game.add.group();
         platforms.enableBody = true;
-        spikes.enableBody = true;
+        cars.enableBody = true;
         balls.enableBody = true;
         coins.enableBody = true;
         enemies.enableBody = true;
         enemies2.enableBody = true;
-        // dog's platform
+        // potion's platform
         plat = platforms.create(29700, 1370, 'platform');
         plat.scale.setTo(2, 1);
         plat.body.immovable = true;
         
-        // base platforms, balls, spikes
+        // base platforms, balls, cars
         var j = 300;
         var k = 800;
         var n, m;
@@ -158,12 +158,12 @@ window.onload = function() {
         		plat = platforms.create(i, 1400, 'platform');
         		plat.scale.setTo(16, .5);
         		plat.body.immovable = true;
-        		spike = spikes.create(i + k, 1350, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
-        		spike = spikes.create(i + j + 80, 1350, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
+        		car = cars.create(i + k, 1350, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
+        		car = cars.create(i + j + 80, 1350, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
 				coin = coins.create(i + j - 50, 1336, 'coin');
         		coin.scale.setTo(.5, .5);
         		coin.body.immovable = true;					
@@ -205,7 +205,7 @@ window.onload = function() {
         		plat.body.immovable = true;
         		i += 3100;
         } i = 3900, j = 600, k = 1170, m = 1670;
-        while (i < 27600) { // platform set 3 rotation 1 (2 balls, 1 spike)
+        while (i < 27600) { // platform set 3 rotation 1 (2 balls, 1 car)
         		ball = balls.create(i + j, 850, 'ball');
         		ball.scale.setTo(.7, .7);
         		ball.body.immovable = true;
@@ -221,9 +221,9 @@ window.onload = function() {
         		ball = balls.create(i + j + 10, 750, 'ball');
         		ball.scale.setTo(.5, .5);
         		ball.body.immovable = true;
-        		spike = spikes.create(i + k, 950, 'spike');
-        		spike.scale.setTo(.5, .5);
-         		spike.body.immovable = true;
+        		car = cars.create(i + k, 950, 'car');
+        		car.scale.setTo(.5, .5);
+         		car.body.immovable = true;
 				coin = coins.create(i + k + 350, 950, 'coin');
         		coin.scale.setTo(.5, .5);
         		coin.body.immovable = true
@@ -254,19 +254,16 @@ window.onload = function() {
         		m = n;
         		i += 6200;
         } i = 7000, j = 600, k = 1150, m = 1650;
-        while (i < 27600) { // platform set 3 rotation 2 (1 ball, 2 spikes)
+        while (i < 27600) { // platform set 3 rotation 2 (1 ball, 2 cars)
         		ball = balls.create(i + j, 850, 'ball');
         		ball.scale.setTo(.7, .7);
         		ball.body.immovable = true;
-        		spike = spikes.create(i + k, 936, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
-        		spike = spikes.create(i + k + 40, 936, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
-/*         		spike = spikes.create(i + m + 20, 936, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true; */
+        		car = cars.create(i + k, 936, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
+        		car = cars.create(i + k + 40, 936, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
         		n = m;
         		m = k;
         		k = j;
@@ -286,7 +283,7 @@ window.onload = function() {
         plat.scale.setTo(2, .7);
         plat.body.immovable = true;
         i = 700, j = 0, k = 0;
-        // large plats, balls, and spikes
+        // large plats, balls, and cars
         while (i < 28950) {
         		plat = platforms.create(i, 350, 'platform');
         		plat.scale.setTo(32.5, .5);
@@ -301,24 +298,21 @@ window.onload = function() {
         		ball = balls.create(i + j+70, 200, 'ball');
         		ball.scale.setTo(.7, .7);
         		ball.body.immovable = true;
-        		spike = spikes.create(i + k, 286, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
-        		spike = spikes.create(i + k + 40, 286, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
-/*         		spike = spikes.create(i + m, 286, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true; */
-        		spike = spikes.create(i + m+80, 286, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
+        		car = cars.create(i + k, 286, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
+        		car = cars.create(i + k + 40, 286, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
+        		car = cars.create(i + m+80, 286, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
         		n = m;
         		m = k;
         		k = j;
         		j = n;
         		i += 11300;
-        } // top platform rotation 2 (2 balls, 1 spike)
+        } // top platform rotation 2 (2 balls, 1 car)
         i = 6800, j = 1200, k = 2200, m = 3200;
         while (i < 28950) {
         		ball = balls.create(i + j, 200, 'ball');
@@ -327,15 +321,15 @@ window.onload = function() {
         		ball = balls.create(i + j, 136, 'ball');
         		ball.scale.setTo(.7, .7);
         		ball.body.immovable = true;
-        		spike = spikes.create(i + k, 286, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
-        		spike = spikes.create(i + k + 40, 286, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
-        		spike = spikes.create(i + k + 120, 286, 'spike');
-        		spike.scale.setTo(.5, .5);
-        		spike.body.immovable = true;
+        		car = cars.create(i + k, 286, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
+        		car = cars.create(i + k + 40, 286, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
+        		car = cars.create(i + k + 120, 286, 'car');
+        		car.scale.setTo(.5, .5);
+        		car.body.immovable = true;
         		ball = balls.create(i + m, 200, 'ball');
         		ball.scale.setTo(.7, .7);
         		ball.body.immovable = true;
@@ -402,160 +396,116 @@ window.onload = function() {
 }
 	
 	
-function exitMenu() {
-    		if(gameStart) {
-    				player.body.gravity.y = 3200;
-    				keys = game.input.keyboard.createCursorKeys();
-    				menu.destroy();
-    				titleMusic.stop();
-    				bgMusic.play();
-    				game.camera.follow(player);
-    				gameStart = false;
-    		}
-    }
-
-
-
-
+	function exitMenu() {
+				if(gameStart) {
+						player.body.gravity.y = 3200;
+						keys = game.input.keyboard.createCursorKeys();
+						menu.destroy();
+						titleMusic.stop();
+						bgMusic.play();
+						game.camera.follow(player);
+						gameStart = false;
+				}
+	}
     
-function update() {
-    		// hitbox correction
-    		player.body.width = hitbox;
-    		player.body.height = playerHeight;
-    // collision
-    		collidePlat = game.physics.arcade.collide(player, platforms);
-    		collideSpike = game.physics.arcade.overlap(player, spikes);
-			var collideCoin = game.physics.arcade.overlap(player, coins, collect);
-    		win = game.physics.arcade.overlap(player, dog);
-    		if(collidePlat && keys.down.isDown && !(keys.left.isDown || keys.right.isDown) && player.body.velocity.x != 0)
-    				collideBall = false;
-    		else
-    				collideBall = game.physics.arcade.overlap(player, balls);
-    // win
-    if(win){
-    		text.setStyle(style2);
-    		text.setText("YOU WIN\nYou've caught Memory.");
-    		bgMusic.stop();
-    		winSFX.play('', 0, 0.2, false, false);
-    }
-    // death state
-    if(player.body.onFloor() || collideSpike || collideBall || dead) {
-    		if(!dead)
-    				dieSFX.play('', 0, 0.2, false, false);
-    		dead = true;
-        player.body.velocity.x = 0;
-        player.body.velocity.y = 0;
-        back.stopScroll();
-        bg.stopScroll();
-        text.setText("YOU DIED\nPress the up arrow key to restart.");
-    		player.animations.play('die', 20, false, true);
-    }
-    // controls
-    else if (!player.body.onFloor() && !collidePlat) { // if the player is not on the ground
-    		player.animations.play('jump');
-    }
-    else if (keys.left.isDown)
-    {
-    		if(!facingLeft) { // if the player is not facing left 
-    				player.scale.x *= -1; // flip the sprite
-    				facingLeft = true;
-    		}
-    		if (player.body.velocity.x > -700)
-    				player.body.velocity.x += -50;
-        player.animations.play('run');
-    		runSFX.play('', 0, 0.15, false, false);
-        back.autoScroll(5, 0);
-        bg.autoScroll(150, 0);
-    }
-    else if (keys.right.isDown)
-    {
-    		if(facingLeft) {
-    				player.scale.x *= -1;
-    				facingLeft = false;
-    		}
-    		if (player.body.velocity.x < 700)
-    				player.body.velocity.x += 50;
-        player.animations.play('run');
-    		runSFX.play('', 0, 0.15, false, false);
-        back.autoScroll(-5, 0); 
-        bg.autoScroll(-150, 0);
-    }
-    else if (keys.down.isDown && player.body.velocity.x != 0) { // sliding physics
-    		if(player.body.velocity.x > 0)
-    				player.body.velocity.x -= 10;
-    		else
-    				player.body.velocity.x += 10
-    		player.animations.play('slide');
-    		slideSFX.play('', 0.5, 0.04, false, false);
-    }
-    else
-    {
-        player.body.velocity.x = 0;
-        back.stopScroll();
-        bg.stopScroll();
-        player.animations.play('idle');
-    }
-    // jumping
-    if (jump.isDown && collidePlat && !dead && game.time.now > jumpTimer)
-    {
-    		titleMusic.stop();
-    		jumpSFX.play();
-        player.body.velocity.y = -1250;
-        jumpTimer = game.time.now + 500;
-    } 
-    // reset
-    if(!player.alive && keys.up.isDown) {
-    		dead = false;
-    		player.reset(15, 1000);
-    		text.setText("");
-    		counter++;
-    		killCount.setText("Retries: " + counter);
-    }
+	function update() {
+				// hitbox correction
+				player.body.width = hitbox;
+				player.body.height = playerHeight;
+		// collision
+				collidePlat = game.physics.arcade.collide(player, platforms);
+				collideSpike = game.physics.arcade.overlap(player, cars);
+				var collideCoin = game.physics.arcade.overlap(player, coins, collect);
+				win = game.physics.arcade.overlap(player, potion);
+				if(collidePlat && keys.down.isDown && !(keys.left.isDown || keys.right.isDown) && player.body.velocity.x != 0)
+						collideBall = false;
+				else
+						collideBall = game.physics.arcade.overlap(player, balls);
+		// win
+		if(win){
+				text.setStyle(style2);
+				text.setText("YOU WIN\nYou've caught Memory.");
+				bgMusic.stop();
+				winSFX.play('', 0, 0.2, false, false);
+		}
+		// death state
+		if(player.body.onFloor() || collideSpike || collideBall || dead) {
+				if(!dead)
+						dieSFX.play('', 0, 0.2, false, false);
+				dead = true;
+			player.body.velocity.x = 0;
+			player.body.velocity.y = 0;
+			back.stopScroll();
+			bg.stopScroll();
+			text.setText("YOU DIED\nPress the up arrow key to restart.");
+				player.animations.play('die', 20, false, true);
+		}
+		// controls
+		else if (!player.body.onFloor() && !collidePlat) { // if the player is not on the ground
+				player.animations.play('jump');
+		}
+		else if (keys.left.isDown)
+		{
+				if(!facingLeft) { // if the player is not facing left 
+						player.scale.x *= -1; // flip the sprite
+						facingLeft = true;
+				}
+				if (player.body.velocity.x > -700)
+						player.body.velocity.x += -50;
+			player.animations.play('run');
+				runSFX.play('', 0, 0.15, false, false);
+			back.autoScroll(5, 0);
+			bg.autoScroll(150, 0);
+		}
+		else if (keys.right.isDown)
+		{
+				if(facingLeft) {
+						player.scale.x *= -1;
+						facingLeft = false;
+				}
+				if (player.body.velocity.x < 700)
+						player.body.velocity.x += 50;
+			player.animations.play('run');
+				runSFX.play('', 0, 0.15, false, false);
+			back.autoScroll(-5, 0); 
+			bg.autoScroll(-150, 0);
+		}
+		else if (keys.down.isDown && player.body.velocity.x != 0) { // sliding physics
+				if(player.body.velocity.x > 0)
+						player.body.velocity.x -= 10;
+				else
+						player.body.velocity.x += 10
+				player.animations.play('slide');
+				slideSFX.play('', 0.5, 0.04, false, false);
+		}
+		else
+		{
+			player.body.velocity.x = 0;
+			back.stopScroll();
+			bg.stopScroll();
+			player.animations.play('idle');
+		}
+		// jumping
+		if (jump.isDown && collidePlat && !dead && game.time.now > jumpTimer)
+		{
+				titleMusic.stop();
+				jumpSFX.play();
+			player.body.velocity.y = -1250;
+			jumpTimer = game.time.now + 500;
+		} 
+		// reset
+		if(!player.alive && keys.up.isDown) {
+				dead = false;
+				player.reset(15, 1000);
+				text.setText("");
+				counter++;
+				killCount.setText("Retries: " + counter);
+		}
+	}
 	
-/* 	game.physics.arcade.collide(enemy, platforms);
-	game.physics.arcade.collide(enemy2, platforms);
-	game.physics.arcade.overlap(player, enemy, collisionHandler);
-	game.physics.arcade.overlap(player, enemy2, collisionHandler2);
-	
-	if (keys.left.isDown) {
-		player.body.velocity.x = -150;
-		enemy.body.velocity.x = -200;
-		enemy2.body.velocity.x = 200;
-    }
-    else if (keys.right.isDown) {
-        player.body.velocity.x = 150;
-		enemy.body.velocity.x = 200;
-		enemy2.body.velocity.x = -200;
-    }
-    else {
-        player.animations.stop();
-		enemy.animations.stop();
-		enemy2.animations.stop();
-    }
-    
-    if (keys.up.isDown && player.body.touching.down) {
-        player.body.velocity.y = -350;
-		enemy.body.velocity.y = -350;
-		enemy2.body.velocity.y = -350;
-    } */
-}
-	
-function collect(player, coin) {
-	coin.destroy();	
-    scoreText = game.add.text(16, 16, "Score: " + score, {fontSize: '32px', fill: '#000' });
-	score += 1;
-}
-
-/* function collisionHandler (player, enemy) {
-    player.kill();
-	enemy.kill();
-	enemy2.kill();
-	text.text = "You have been captured by your clones! \nBetter luck next time!";
-}
-function collisionHandler2 (player, enemy2) {
-    player.kill();
-	enemy2.kill();
-	enemy.kill();
-	text.text = "You have been captured by your clones! \nBetter luck next time!";
-} */
+	function collect(player, coin) {
+		coin.destroy();	
+		scoreText = game.add.text(16, 16, "Score: " + score, {fontSize: '32px', fill: '#000' });
+		score += 1;
+	}
 };
